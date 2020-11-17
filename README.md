@@ -1,5 +1,5 @@
 ![Market App](https://github.com/patrinoua/market-place/blob/main/public/Screenshot.png)
-# typeScript-react-app
+# Market Place
 
 React App, using
 

@@ -16,7 +16,7 @@ export const itemsSlice = createSlice({
       console.log("state.value, action.payload", state.value, action.payload)
     },
     selectId: (state, action) => {
-      // console.log("hhehehe", state, action.payload)
+      // console.log("state, action.payload", state, action.payload)
     },
   },
 })

@@ -20,7 +20,7 @@ const ItemModal = ({ item, setIsModalVisible, toggleBuyWizardHandler }) => (
       </ModalTitle>
       <ModalDescription>{item.description}</ModalDescription>
       <BuyNowButton
-        onClick={() => toggleBuyWizardHandler(item)}
+        onClick={toggleBuyWizardHandler}
         toggleBuyWizardHandler={toggleBuyWizardHandler}
       >Buy Now!</BuyNowButton>
     </ModalWindow>

@@ -7,7 +7,7 @@ import {
 } from './elements'
 import {TextField} from '@material-ui/core';
 
-const BuyWizardModal = ({ toggleItemInfoHandler,toggleBuyWizardHandler }) => {
+const BuyWizardModal = ({ setIsItemModalVisible,toggleBuyWizardHandler, setIsPreviewOrderModalVisible }) => {
   
   const [name, setName] = useState('')
   const [lastname, setLastName] = useState('')
@@ -18,13 +18,15 @@ const BuyWizardModal = ({ toggleItemInfoHandler,toggleBuyWizardHandler }) => {
     console.log('post to api with the information', name, lastname, email, creditCard)
     alert('Thank you for your order!')
     setTimeout(()=>{
-      toggleItemInfoHandler({})
+      setIsItemModalVisible(false)
       toggleBuyWizardHandler()
+      setIsPreviewOrderModalVisible(false)
     }, 500)
   }
   const onCancel = ()=>{
-    toggleItemInfoHandler()
+    setIsItemModalVisible(false)
     toggleBuyWizardHandler()
+    setIsPreviewOrderModalVisible(false)
   }
   return (
   <BuyWizardModalContainer>

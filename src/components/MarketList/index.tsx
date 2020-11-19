@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import {
   AppContainer,
   Heading,
@@ -8,21 +8,26 @@ import {
   SearchBarContainer,
   MarketObjectsContainer
 } from './elements'
+import {BuyNowButton} from '../elements'
 import {
-  selectItems,
-  // selectId,
+  selectAvailableItems,
+  selectSelectedItems,
 } from "./itemsSlice"
 import ListItem from '../ListItem'
 import ItemModal from '../ItemModal'
 import BuyWizardModal from '../BuyWizardModal'
+import PreviewOrderModal from '../PreviewOrderModal'
 
 function MarketList() {
-  const availableItems = useSelector(selectItems)
+  const availableItems = useSelector(selectAvailableItems)
+  const selectedItems = useSelector(selectSelectedItems)
   const [items, setItems] = useState(availableItems)
   const [text, setText] = useState('')
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsItemModalVisible] = useState(false)
   const [maximisedItem, setMaximisedItem] = useState('')
   const [isBuyWizardModalVisible, setIsBuyWizardModalVisible] = useState(false)
+  const [isPreviewOrderModalVisible, setIsPreviewOrderModalVisible] = useState(false)
+  const cartIsFilled = selectedItems.length > 0
 
   const inputHandler = (e) => {
     const value = e.target.value
@@ -35,29 +40,37 @@ function MarketList() {
       setItems(availableItems)
     }
   }
-
+  const togglePreviewOrderModalVisible = () =>  setIsPreviewOrderModalVisible(!isPreviewOrderModalVisible)
   const toggleItemInfoHandler = (item) => {
     setMaximisedItem(item)
-    setIsModalVisible(!isModalVisible)
+    setIsItemModalVisible(!isModalVisible)
   }
    const toggleBuyWizardHandler = () => {
     setIsBuyWizardModalVisible(!isBuyWizardModalVisible)
   }
+  console.log('isPreviewOrderModalVisible', isPreviewOrderModalVisible)
   return (
     <AppContainer>
       {isModalVisible && (
         <ItemModal
           item={maximisedItem}
-          setIsModalVisible={setIsModalVisible}
+          setIsModalVisible={setIsItemModalVisible}
           toggleBuyWizardHandler={toggleBuyWizardHandler}
           ></ItemModal>
       )}
        {isBuyWizardModalVisible && (
         <BuyWizardModal
-          toggleItemInfoHandler={toggleItemInfoHandler}
           toggleBuyWizardHandler={toggleBuyWizardHandler}
+          setIsItemModalVisible={setIsItemModalVisible}
+          setIsPreviewOrderModalVisible={setIsPreviewOrderModalVisible}
         ></BuyWizardModal>
       )}
+      {isPreviewOrderModalVisible &&
+        <PreviewOrderModal 
+          setIsPreviewOrderModalVisible={setIsPreviewOrderModalVisible} 
+          toggleBuyWizardHandler={toggleBuyWizardHandler}
+        />
+      }
       <Heading>MARKET PLACE</Heading>
       <SearchAndItemsArea>
         <SearchBarContainer>
@@ -79,6 +92,10 @@ function MarketList() {
           ))}
         </MarketObjectsContainer>
       </SearchAndItemsArea>
+      {cartIsFilled && 
+      <BuyNowButton onClick={() => setIsPreviewOrderModalVisible(true)}>
+        Checkout
+      </BuyNowButton>}
     </AppContainer>
   )
 }

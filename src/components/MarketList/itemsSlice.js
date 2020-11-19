@@ -13,10 +13,13 @@ export const itemsSlice = createSlice({
   reducers: {
     incrementByAmount: (state, action) => {
       state.value += action.payload
-      console.log("state.value, action.payload", state.value, action.payload)
     },
     selectId: (state, action) => {
-      // console.log("state, action.payload", state, action.payload)
+      if (state.selectedItems.includes(action.payload))
+        state.selectedItems = state.selectedItems.filter(
+          (item) => item != action.payload
+        )
+      else state.selectedItems.push(action.payload)
     },
   },
 })
@@ -41,6 +44,7 @@ export const incrementAsync = (amount) => (dispatch) => {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectItems = (state) => state.items.items
+export const selectAvailableItems = (state) => state.items.items
+export const selectSelectedItems = (state) => state.items.selectedItems
 
 export default itemsSlice.reducer

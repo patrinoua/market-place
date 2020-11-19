@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from "react-redux"
 import {
   AppContainer,
   Heading,
@@ -7,13 +8,17 @@ import {
   SearchBarContainer,
   MarketObjectsContainer
 } from './elements'
+import {
+  selectItems,
+  // selectId,
+} from "./itemsSlice"
 import ListItem from '../ListItem'
-import { itemsForSale } from '../../mock-data/itemsForSale'
 import ItemModal from '../ItemModal'
 import BuyWizardModal from '../BuyWizardModal'
 
 function MarketList() {
-  const [items, setItems] = useState(itemsForSale)
+  const availableItems = useSelector(selectItems)
+  const [items, setItems] = useState(availableItems)
   const [text, setText] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [maximisedItem, setMaximisedItem] = useState('')
@@ -27,7 +32,7 @@ function MarketList() {
     )
     setItems(filteredItems)
     if (e.target.value === '') {
-      setItems(itemsForSale)
+      setItems(availableItems)
     }
   }
 
